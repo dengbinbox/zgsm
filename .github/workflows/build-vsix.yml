@@ -32,6 +32,7 @@ jobs:
     - name: Upload VSIX artifact
       uses: actions/upload-artifact@v4
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         name: extension-vsix
         path: bin/*.vsix
 
