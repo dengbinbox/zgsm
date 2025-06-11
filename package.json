@@ -3,7 +3,7 @@
 	"displayName": "%extension.displayName.long%",
 	"description": "%extension.description%",
 	"publisher": "zgsm-ai",
-	"version": "1.4.4",
+	"version": "1.4.4-task-tool-dev",
 	"icon": "images/zhuge_shenma_rebot_logo_big.png",
 	"galleryBanner": {
 		"color": "#617A91",
@@ -457,6 +457,17 @@
 						"type": "boolean",
 						"default": false,
 						"description": "%auth.response.showNotification.description%"
+					}
+				}
+			},
+			{
+				"title": "mcp-upload-settings",
+				"order": 5,
+				"properties": {
+					"zgsm.apiEndpoint": {
+						"type": "string",
+						"default": "",
+						"description": "自定义mcp信息上报base接口"
 					}
 				}
 			},

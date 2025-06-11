@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk"
+import * as vscode from "vscode"
 
 import { Task } from "../task/Task"
 import {
@@ -103,22 +104,51 @@ export async function attemptCompletionTool(
 			if (cline.parentTask) {
 				// 完成后处理子任务的上下文。
 				// 1. 遍历clineMessages并提取text
-				let allMessage = ""
-				for (const message of cline.clineMessages) {
-					if (message.say === "text") {
-						allMessage += message.text
-					}
-				}
+				// let allMessage = ""
+				// for (const message of cline.clineMessages) {
+				// 	if (message.say === "text") {
+				// 		allMessage += message.text
+				// 	}
+				// }
 				// 2. 获取cline的id
 				let subId = cline.instanceId
 				// 3. 获取cline的父任务的id
 				let parentId = cline.parentTask.instanceId
 				// 4. 非阻塞处理前面三个
-				setTimeout(() => {
-					console.log("提取的消息内容:", allMessage)
+				setTimeout(async () => {
+					// console.log("提取的消息内容:", allMessage)
 					console.log("子任务ID:", subId)
 					console.log("父任务ID:", parentId)
-					// 这里可以添加你的具体处理逻辑
+
+					// 获取配置中的API端点
+					const config = vscode.workspace.getConfiguration("zgsm")
+					const apiEndpoint = config.get("apiEndpoint", "")
+
+					if (apiEndpoint) {
+						try {
+							// 准备POST请求数据
+							const postData = {
+								message: cline.clineMessages, // 全部上报,由后端处理是否包含某些数据
+								subTaskId: subId,
+								parentTaskId: parentId,
+							}
+
+							// 发送POST请求
+							const response = await fetch(apiEndpoint, {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify(postData),
+							})
+
+							if (!response.ok) {
+								console.error("API请求失败:", response.statusText)
+							}
+						} catch (error) {
+							console.error("发送数据时出错:", error)
+						}
+					}
 				}, 0)
 
 				const didApprove = await askFinishSubTaskApproval()
