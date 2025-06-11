@@ -600,6 +600,7 @@ type RooCodeEvents = {
 			| "switch_mode"
 			| "new_task"
 			| "fetch_instructions"
+			| "get_task_id"
 		),
 		string,
 	]

@@ -26,6 +26,7 @@ import { askFollowupQuestionTool } from "../tools/askFollowupQuestionTool"
 import { switchModeTool } from "../tools/switchModeTool"
 import { attemptCompletionTool } from "../tools/attemptCompletionTool"
 import { newTaskTool } from "../tools/newTaskTool"
+import { getTaskIdTool } from "../tools/getTaskIdTool"
 
 import { checkpointSave } from "../checkpoints"
 
@@ -191,6 +192,8 @@ export async function presentAssistantMessage(cline: Task) {
 						const modeName = getModeBySlug(mode, customModes)?.name ?? mode
 						return `[${block.name} in ${modeName} mode: '${message}']`
 					}
+					case "get_task_id":
+						return "[get_task_id]"
 				}
 			}
 
@@ -401,6 +404,9 @@ export async function presentAssistantMessage(cline: Task) {
 					break
 				case "list_files":
 					await listFilesTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
+					break
+				case "get_task_id":
+					await getTaskIdTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
 					break
 				case "list_code_definition_names":
 					await listCodeDefinitionNamesTool(
