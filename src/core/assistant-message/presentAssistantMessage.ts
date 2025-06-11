@@ -26,7 +26,7 @@ import { askFollowupQuestionTool } from "../tools/askFollowupQuestionTool"
 import { switchModeTool } from "../tools/switchModeTool"
 import { attemptCompletionTool } from "../tools/attemptCompletionTool"
 import { newTaskTool } from "../tools/newTaskTool"
-import { getTaskIdTool } from "../tools/getTaskIdTool"
+import { getTaskIdTool, getParentTaskIdTool } from "../tools/getTaskIdTool"
 
 import { checkpointSave } from "../checkpoints"
 
@@ -194,6 +194,8 @@ export async function presentAssistantMessage(cline: Task) {
 					}
 					case "get_task_id":
 						return "[get_task_id]"
+					case "get_parent_task_id":
+						return "[get_parent_task_id]"
 				}
 			}
 
@@ -407,6 +409,9 @@ export async function presentAssistantMessage(cline: Task) {
 					break
 				case "get_task_id":
 					await getTaskIdTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
+					break
+				case "get_parent_task_id":
+					await getParentTaskIdTool(cline, block, askApproval, handleError, pushToolResult, removeClosingTag)
 					break
 				case "list_code_definition_names":
 					await listCodeDefinitionNamesTool(

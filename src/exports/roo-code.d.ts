@@ -601,6 +601,7 @@ type RooCodeEvents = {
 			| "new_task"
 			| "fetch_instructions"
 			| "get_task_id"
+			| "get_parent_task_id"
 		),
 		string,
 	]

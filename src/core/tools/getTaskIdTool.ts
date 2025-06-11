@@ -21,3 +21,29 @@ export async function getTaskIdTool(
 		await handleError("getting task ID", err)
 	}
 }
+
+export async function getParentTaskIdTool(
+	cline: Task,
+	block: {
+		params: {} // 不需要参数
+	},
+	askApproval: AskApproval,
+	handleError: HandleError,
+	pushToolResult: PushToolResult,
+	_: RemoveClosingTag,
+) {
+	try {
+		// 直接返回当前Task的instanceId
+		let parent = cline.parentTask
+		const taskId = parent?.instanceId
+		if (!taskId) {
+			pushToolResult(`<task_id><no_parent_task/></task_id>`)
+		} else {
+			pushToolResult(`<task_id>${taskId}</task_id>`)
+		}
+	} catch (err) {
+		const errorMsg = err instanceof Error ? err.message : "Failed to get parent task ID"
+		pushToolResult(`<task_id><error>${errorMsg}</error></task_id>`)
+		await handleError("getting task ID", err)
+	}
+}

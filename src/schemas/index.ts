@@ -1172,6 +1172,7 @@ export const toolNames = [
 	"new_task",
 	"fetch_instructions",
 	"get_task_id",
+	"get_parent_task_id",
 ] as const
 
 export const toolNamesSchema = z.enum(toolNames)

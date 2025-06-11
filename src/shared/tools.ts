@@ -179,6 +179,7 @@ export const TOOL_DISPLAY_NAMES: Record<ToolName, string> = {
 	attempt_completion: "complete tasks",
 	switch_mode: "switch modes",
 	get_task_id: "get task ID",
+	get_parent_task_id: "get parent task ID",
 	new_task: "create new task",
 	insert_content: "insert content",
 	search_and_replace: "search and replace",
@@ -216,6 +217,7 @@ export const ALWAYS_AVAILABLE_TOOLS: ToolName[] = [
 	"switch_mode",
 	"new_task",
 	"get_task_id",
+	"get_parent_task_id",
 ] as const
 
 export type DiffResult =
