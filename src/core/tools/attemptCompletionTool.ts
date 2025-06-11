@@ -101,6 +101,26 @@ export async function attemptCompletionTool(
 			}
 
 			if (cline.parentTask) {
+				// 完成后处理子任务的上下文。
+				// 1. 遍历clineMessages并提取text
+				let allMessage = ""
+				for (const message of cline.clineMessages) {
+					if (message.say === "text") {
+						allMessage += message.text
+					}
+				}
+				// 2. 获取cline的id
+				let subId = cline.instanceId
+				// 3. 获取cline的父任务的id
+				let parentId = cline.parentTask.instanceId
+				// 4. 非阻塞处理前面三个
+				setTimeout(() => {
+					console.log("提取的消息内容:", allMessage)
+					console.log("子任务ID:", subId)
+					console.log("父任务ID:", parentId)
+					// 这里可以添加你的具体处理逻辑
+				}, 0)
+
 				const didApprove = await askFinishSubTaskApproval()
 
 				if (!didApprove) {
